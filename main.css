@@ -1,0 +1,182 @@
+.page {
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-rows: 0.7fr 0.3fr;
+  grid-template-columns: 0.7fr 1.1fr 0.7fr;
+  gap: 30px;
+  grid-template-areas:
+    "menu game scores"
+    "timer . leaderboard";
+}
+
+body {
+  font-family: "Rye", cursive;
+}
+
+.game {
+  grid-area: game;
+}
+
+.scores {
+  margin-top: 200px;
+  grid-area: scores;
+}
+
+.leaderboard {
+  margin-top: 100px;
+  grid-area: leaderboard;
+}
+
+.timer {
+  margin-top: 100px;
+  grid-area: timer;
+}
+
+.scores p,
+.scores h2 {
+  text-align: left;
+  margin-right: 3vw;
+}
+
+.menu {
+  margin-top: 200px;
+  grid-area: menu;
+}
+
+.menu h2 {
+  text-align: left;
+  margin-left: 17vw;
+}
+
+.menu p {
+  font-size: 4em;
+  text-align: center;
+  margin-left: 17vw;
+}
+
+.menu button {
+  display: block;
+  font-size: 1em;
+  text-align: left;
+  margin-left: 17vw;
+  background-color: lightpink;
+  box-shadow: 5px 7px 5px 1px rgba(129, 5, 82, 0.6);
+  font-family: "Rye", cursive;
+  padding: 10px;
+  min-width: 20vmin;
+  max-width: 20vmin;
+}
+
+button:active {
+  transform: translateY(4px);
+}
+
+h1 {
+  margin-top: 100px;
+  margin-bottom: 50px;
+  font-size: 3em;
+  text-align: center;
+}
+
+table {
+  min-width: 434px;
+  max-width: 434px;
+  background-color: #8a8681ce;
+  margin: 0 auto;
+  box-shadow: inset 5px 0 10px -5px #635e61, inset 0px -5px 10px -2px #635e61, 0 0 1px 2px #635e61;
+}
+
+td {
+  height: 44px;
+  width: 44px;
+  background-color: #e7e7e7;
+  box-shadow: inset -5px 0 10px -5px #635e61, inset 0px -5px 10px -2px #635e61, 0 0 1px 2px #635e61;
+}
+
+.topTimers {
+  background-color: lightpink;
+  height: auto;
+  width: auto;
+  align-self: normal;
+  padding: 0px 30px 0px 0px;
+  display: table-cell;
+}
+
+.leaders {
+  margin-left: 0px;
+  display: table;
+}
+
+.leadersRow {
+  display: table-row;
+}
+
+.container {
+  text-align: center;
+}
+
+.ball {
+  display: block;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  margin: 0;
+}
+
+@keyframes ball-animation {
+  20%,
+  80% {
+    transform: scaleY(0.98) scaleX(1.01);
+  }
+  48%,
+  68% {
+    transform: scaleY(0.95) scaleX(1.04);
+  }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  from {
+    transform: translateY(1px);
+  }
+  to {
+    transform: translateY(3px);
+  }
+}
+
+.selectedBall {
+  display: block;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  margin: 0;
+  animation: ball-animation 0.6s infinite;
+}
+
+.ballYellow {
+  background: radial-gradient(circle at 10px 10px, yellow, #454d01);
+}
+
+.ballGreen {
+  background: radial-gradient(circle at 10px 10px, rgb(8, 167, 8), #000503);
+}
+
+.ballBrown {
+  background: radial-gradient(circle at 10px 10px, #a35c5c, rgb(59, 2, 2));
+}
+
+.ballPink {
+  background: radial-gradient(circle at 10px 10px, rgb(231, 163, 200), rgb(216, 11, 96));
+}
+
+.ballBlue {
+  background: radial-gradient(circle at 10px 10px, rgb(105, 105, 235), rgb(1, 1, 27));
+}
+
+.ballLightBlue {
+  background: radial-gradient(circle at 10px 10px, rgb(7, 176, 233), rgb(2, 2, 63));
+}
+
+.ballRed {
+  background: radial-gradient(circle at 10px 10px, red, #000000);
+}
