@@ -39,10 +39,14 @@ Here's a screenshot we're trying to work towards.
 
 - Game win condition: getting more points than the king (100), winning sound plays and graphics change (the player is now the king). Then the game continues.
 
-- Old school midi sounds for bouncing balls.
+- Old school 8 bit sounds for bouncing balls.
 
 ## Issues
 
 - Sometimes multiple calls go into the same cell. Tried hasChildNodes, children, firstChild, innerHTML...
 - How to click to move?
 - How to stop first ball from animating when a different ball is clicked?
+
+## Credits
+
+Sound Effect by <a href="https://pixabay.com/users/lesiakower-25701529/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=151796">Lesiakower</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=151796">Pixabay</a>

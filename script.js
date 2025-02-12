@@ -1,5 +1,11 @@
 let cells = document.getElementsByTagName("td");
-let bounceSound = new Audio("");
+let allowSound = true;
+let soundOption = document.getElementById("sound");
+let helpButton = document.getElementById("help");
+const dialog = document.getElementById("helpGuide");
+const closeHelp = document.getElementById("closeHelp");
+let restartGame = document.getElementById("restart");
+let bounceSound = new Audio("/sounds/bounce-ball.mp3");
 let timeAttack = document.getElementById("timedMode");
 let idlyClick = document.getElementById("idleMode");
 let idleClicks = 0;
@@ -28,22 +34,73 @@ let highScores = [
   },
 ];
 
-// timeAttack.onclick = timedGame;
-
 startGame();
 
-function cellClicked(e)
+soundOption.addEventListener("click", () => //sound option toggle
+{
+  allowSound = !allowSound;
+});
+
+help.addEventListener("click", () =>
+{
+  dialog.showModal();
+});
+
+closeHelp.addEventListener("click", () =>
+{
+  dialog.close();
+});
+
+restartGame.onclick = startGame;
+
+function firstCellClicked(e)
 {
   // create a variable for the clicked cell
   let firstClick = e.target;
 
-  console.log(firstClick);
-  console.log(cells);
-
   if (firstClick.id.includes("ball"))
     if (firstClick.classList.contains("selectedBall"))
     {
-      console.log(firstClick.click.id);
+      document.getElementById(firstClick.id).classList.remove("selectedBall");
+      ballSounds("");
+      for (let i = 0; i < 3; i++)  //generate three more balls - this will later go to post-move area, but i just wanted to see something that works... 
+      {
+        generateBall();
+      }
+    }
+    else
+    {
+      document.getElementById(firstClick.id).classList.add("selectedBall");
+      ballSounds("selectedBall");
+      secondClick();
+    }
+}
+
+
+function ballSounds(ballType) // repeating bouncing ball sounds
+{
+  if (!allowSound)
+    return;
+  if (ballType === "selectedBall")
+  {
+    bounceSound.loop = true;
+    bounceSound.play();
+  }
+  else 
+  {
+    bounceSound.pause();
+  }
+
+}
+
+function secondCellClicked(e)
+{
+  // create a variable for the clicked cell
+  let secondClick = e.target;
+
+  if (secondClick.id.includes("ball"))
+    if (!secondClick.classList.contains("selectedBall"))
+    {
       document.getElementById(firstClick.id).classList.remove("selectedBall");
       for (let i = 0; i < 3; i++)  //generate three more balls - this will later go to post-move area, but i just wanted to see something that works... 
       {
@@ -55,19 +112,6 @@ function cellClicked(e)
       document.getElementById(firstClick.id).classList.add("selectedBall");
     }
 }
-// if (timed)
-// {
-//   timedClicks++;
-//   displayMole();
-//   document.getElementById("timedClicks").innerHTML = "You clicked " + timedClicks + " times while the timer was running";
-//   return;
-// }
-// else
-// {
-//   idleClicks++;
-//   displayMole();
-//   document.getElementById("idleClicks").innerHTML = "You idly clicked " + idleClicks + " times";
-// }
 
 
 
@@ -79,18 +123,14 @@ function generateBall()
 
   let randomIndex = getRandomNumber(0, cells.length - 1);
 
-  for (let i = 0; i < cells.length; i++)
+  for (let i = 0; i < cells.length; i++) //attempt to not put multiple balls into the same cell but it's not working
   {
     ball.id = "ball" + randomIndex;
-    console.log(ball);
-    console.log(cells[randomIndex].parentNode.children);
-    console.log(cells[randomIndex].children.length);
     for (let i = 0; i < cells.length; i++)
     {
-      if (cells[randomIndex].children.length > 0)
+      if (cells[randomIndex].classList.contains("ball"))
       {
         console.log("already ball there");
-        randomIndex = getRandomNumber(0, cells.length - 1);
       }
     }
 
@@ -108,6 +148,13 @@ function getRandomNumber(min, max)
 
 function startGame()
 {
+
+  for (let i = 0; i < cells.length; i++) // I want this to clear the board if the person pressed a restart button. not working
+  {
+    cells[i].removeChild;
+
+  }
+
   for (let i = 0; i < 5; i++)  //first time we generate five
   {
     generateBall();
@@ -115,7 +162,7 @@ function startGame()
 
   for (let i = 0; i < cells.length; i++)
   {
-    cells[i].onclick = cellClicked;
+    cells[i].onclick = firstCellClicked;
   }
 }
 

@@ -12,10 +12,12 @@
 
   <div class="page">
     <aside class="menu">
-      <h2>Select a Mode</h2>
-      <button id="idleMode">Idle Mode</button>
+      <h2>Options</h2>
+      <button id="sound">Sound</button>
       <br>
-      <button id="timedMode">Time Attack</button>
+      <button id="help">Help</button>
+      <br>
+      <button id="restart">Restart</button>
       <section class="timer">
         <p id="countdown">◕‿◕</p>
       </section>
@@ -123,6 +125,13 @@
           <td></td>
         </tr>
       </table>
+      <dialog id="helpGuide">
+        <p>Click on a ball to activate it.</p>
+        <p>Click somewhere else to move it.</p>
+        <p>Make a line of five or more in a row.</p>
+        <p>Every turn that you don't make a complete line, three more balls will appear.</p>
+        <button id="closeHelp">Close Help</button>
+      </dialog>
     </main>
     <aside class="scores">
       <h2>Score</h2>
