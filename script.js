@@ -1,16 +1,14 @@
-let cells = document.getElementsByTagName("td");
-let allowSound = true;
-let soundOption = document.getElementById("sound");
-let helpButton = document.getElementById("help");
+
+const soundOption = document.getElementById("sound");
+const helpButton = document.getElementById("help");
 const dialog = document.getElementById("helpGuide");
 const closeHelp = document.getElementById("closeHelp");
-let restartGame = document.getElementById("restart");
+const restartGame = document.getElementById("restart");
+
+let cells = document.getElementsByTagName("td");
+let allowSound = true;
 let bounceSound = new Audio("/sounds/bounce-ball.mp3");
-let timeAttack = document.getElementById("timedMode");
-let idlyClick = document.getElementById("idleMode");
-let idleClicks = 0;
-let timedClicks = 0;
-let timed = false;
+let playerScore = 0;
 let highScores = [
   {
     name: "John",
@@ -41,17 +39,17 @@ soundOption.addEventListener("click", () => //sound option toggle
   allowSound = !allowSound;
 });
 
-help.addEventListener("click", () =>
+help.addEventListener("click", () => //open help
 {
   dialog.showModal();
 });
 
-closeHelp.addEventListener("click", () =>
+closeHelp.addEventListener("click", () => //close help
 {
   dialog.close();
 });
 
-restartGame.onclick = startGame;
+restartGame.onclick = startGame; //restart the game button handle
 
 function firstCellClicked(e)
 {
@@ -113,8 +111,6 @@ function secondCellClicked(e)
     }
 }
 
-
-
 function generateBall()
 {
   let ball = document.createElement("figure");
@@ -149,9 +145,9 @@ function getRandomNumber(min, max)
 function startGame()
 {
 
-  for (let i = 0; i < cells.length; i++) // I want this to clear the board if the person pressed a restart button. not working
+  for (let i = 0; i < cells.length; i++) // clear the board and start again
   {
-    cells[i].removeChild;
+    cells[i].innerHTML = "";
 
   }
 
