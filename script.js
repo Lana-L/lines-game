@@ -1,11 +1,12 @@
-
 const soundOption = document.getElementById("sound");
 const helpButton = document.getElementById("help");
 const dialog = document.getElementById("helpGuide");
+const gameTable = document.getElementById("gameBoard");
 const closeHelp = document.getElementById("closeHelp");
 const restartGame = document.getElementById("restart");
 
-let cells = document.getElementsByTagName("td");
+let gameCells = [];
+
 let allowSound = true;
 let bounceSound = new Audio("/sounds/bounce-ball.mp3");
 let playerScore = 0;
@@ -70,7 +71,7 @@ function firstCellClicked(e)
     {
       document.getElementById(firstClick.id).classList.add("selectedBall");
       ballSounds("selectedBall");
-      secondClick();
+      //secondClick();
     }
 }
 
@@ -114,24 +115,87 @@ function secondCellClicked(e)
 function generateBall()
 {
   let ball = document.createElement("figure");
+  let randomIndex = getRandomNumber(0, 80);
+
   ball.classList.add("ball");
   ball.classList.add(randomColour()); // get a random colour for the ball
 
-  let randomIndex = getRandomNumber(0, cells.length - 1);
-
-  for (let i = 0; i < cells.length; i++) //attempt to not put multiple balls into the same cell but it's not working
+  let i = 1;
+  while (i > 0) //keep checking so we don't put balls in a cell where there is already one
   {
-    ball.id = "ball" + randomIndex;
-    for (let i = 0; i < cells.length; i++)
+    if (document.getElementsByClassName("hasBall").length > 79)
+      return;
+    else 
     {
-      if (cells[randomIndex].classList.contains("ball"))
+      if (document.getElementById("cell" + randomIndex).classList.contains("hasBall"))
       {
         console.log("already ball there");
+        randomIndex = getRandomNumber(0, 80);
+
+      }
+      else
+      {
+        ball.id = "ball" + randomIndex;
+        document.getElementById("cell" + randomIndex).appendChild(ball);
+        document.getElementById("cell" + randomIndex).classList.replace("noBall", "hasBall");
+        i--;
       }
     }
-
-    cells[randomIndex].appendChild(ball);
   }
+}
+
+
+// let i = 5;
+// while (i > 0)
+// {
+//   if (gameCell[randomIndex] === 0)
+//   {
+//     setCell(randomIndex, randomColour());
+//     i--;
+//   }
+// }
+// selectNextBalls();
+//}
+
+
+// function setCell(cellNumber, newColour)
+// {
+//   gameCell[cellNumber] = newColour;
+//   setCellState(cellNumber, newColour);
+// }
+
+
+// function setCellState(cellNumber, colour, selected)
+// {
+
+//   let cellChecked = document.getElementById("cell" + cellNumber);
+//   let ballChecked = document.getElementById("ball" + cellNumber);
+//   if (!cellChecked.classList.contains(colour))
+//     cellChecked.classList.add(colour);
+//   else
+//     cellChecked.classList.remove(colour);
+
+//   // if (!ballChecked.classList.contains(selected))
+//   //   ballChecked.classList.add("selectedBall");
+//   // else
+//   //   ballChecked.classList.remove("selectedBall");
+// }
+
+function generateBoard()
+{
+  let cells = '';
+  let cellId = 0;
+  for (let i = 0; i < 9; i++)
+  {
+    cells += '<div class ="gameRow">';
+    for (let j = 0; j < 9; j++)
+    {
+      cellId = i * 9 + j;
+      cells += '<div id="cell' + cellId + '" class ="gameCell noBall"></div>';
+    }
+    cells += '</div>';
+  }
+  gameTable.innerHTML = cells;
 }
 
 
@@ -145,20 +209,16 @@ function getRandomNumber(min, max)
 function startGame()
 {
 
-  for (let i = 0; i < cells.length; i++) // clear the board and start again
-  {
-    cells[i].innerHTML = "";
-
-  }
+  generateBoard();
 
   for (let i = 0; i < 5; i++)  //first time we generate five
   {
     generateBall();
   }
 
-  for (let i = 0; i < cells.length; i++)
+  for (let i = 0; i < 81; i++)
   {
-    cells[i].onclick = firstCellClicked;
+    document.getElementById("cell" + i).onclick = firstCellClicked;
   }
 }
 

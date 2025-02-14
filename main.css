@@ -78,17 +78,23 @@ h1 {
   text-align: center;
 }
 
-table {
-  min-width: 434px;
-  max-width: 434px;
+#gameBoard {
+  width: 416px;
   background-color: #8a8681ce;
-  margin: 0 auto;
+  margin: auto;
   box-shadow: inset 5px 0 10px -5px #635e61, inset 0px -5px 10px -2px #635e61, 0 0 1px 2px #635e61;
 }
 
-td {
-  height: 44px;
-  width: 44px;
+.gameRow {
+  padding: 0;
+  margin: 0;
+  height: 49px;
+}
+
+.gameCell {
+  display: inline-block;
+  height: 46px;
+  width: 46px;
   background-color: #e7e7e7;
   box-shadow: inset -5px 0 10px -5px #635e61, inset 0px -5px 10px -2px #635e61, 0 0 1px 2px #635e61;
 }
@@ -116,11 +122,18 @@ td {
 }
 
 .ball {
-  display: block;
+  position: relative;
   border-radius: 50%;
   height: 40px;
   width: 40px;
+  margin: 2px;
+  padding: 0;
+  z-index: 5;
+}
+
+figure {
   margin: 0;
+  padding: 0;
 }
 
 @keyframes ball-animation {
@@ -145,11 +158,6 @@ td {
 }
 
 .selectedBall {
-  display: block;
-  border-radius: 50%;
-  height: 40px;
-  width: 40px;
-  margin: 0;
   animation: ball-animation 0.6s infinite;
 }
 
