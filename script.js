@@ -91,10 +91,7 @@ function cellClicked(e)
       currentCellState = clickTarget;
 
       moveBall(currentBallState, currentCellState);
-      for (let i = 0; i < 3; i++)  //generate three more balls - this will later go to post-move area, but i just wanted to see something that works... 
-      {
-        generateBall();
-      }
+
       currentBallState = ""; //reset the ball state for future clicks
     }
   }
@@ -120,31 +117,31 @@ function ballSounds(ballType) // repeating bouncing ball sounds
 function generateBall()
 {
   let ball = document.createElement("figure");
-  let randomIndex = getRandomNumber(0, 80);
 
-  ball.classList.add("ball");
-  ball.classList.add(randomColour()); // get a random colour for the ball
+  let placeBallTries = 0;
+  let maxPlaceBallTries = 81 - document.getElementsByClassName("hasBall").length;
 
-  let i = 1;
-  while (i > 0) //keep checking so we don't put balls in a cell where there is already one
+
+
+  while (placeBallTries < maxPlaceBallTries) //keep checking so we don't put balls in a cell where there is already one
   {
-    if (document.getElementsByClassName("hasBall").length > 79) // break out of the loop if there are no more free cells left.
-      return;
-    else 
+    let randomIndex = getRandomNumber(0, 80);
+
+    if (!document.getElementById("cell" + randomIndex).classList.contains("hasBall"))
     {
-      if (document.getElementById("cell" + randomIndex).classList.contains("hasBall"))
-      {
-        randomIndex = getRandomNumber(0, 80);
-      }
-      else
-      {
-        ball.id = "ball" + randomIndex;
-        document.getElementById("cell" + randomIndex).appendChild(ball);
-        document.getElementById("cell" + randomIndex).classList.replace("noBall", "hasBall");
-        i--;
-      }
+      ball.classList.add("ball");
+      ball.classList.add(randomColour()); // get a random colour for the ball
+      ball.id = "ball" + randomIndex;
+      document.getElementById("cell" + randomIndex).appendChild(ball);
+      document.getElementById("cell" + randomIndex).classList.replace("noBall", "hasBall");
+      return;
     }
+
+    placeBallTries++;
   }
+
+  if (document.getElementsByClassName("hasBall").length > 80) // break out of the loop if there are no more free cells left.
+    return;
 }
 
 function generateBoard() //generating the board dynamically. this could have been done by hard-coding it all out in HTML I guess
@@ -176,8 +173,98 @@ function moveBall(selectedBall, arrivingCell)
     arrivingCell.appendChild(selectedBall);
     arrivingCell.classList.replace("noBall", "hasBall");
 
+    checkLineCompletion(selectedBall);
+
     selectedBall.classList.remove("selectedBall");
   }
+  for (let i = 0; i < 3; i++)  //generate three more balls if a line was not completed on the move
+  {
+    generateBall();
+  }
+}
+
+function checkLineCompletion(movedBall)
+{
+  let newCellID = 1 * (movedBall.parentNode.id.replace("cell", ""));
+  let checkGridDirections = [-1, 1, -9, 9, -8, 8, -10, 10]; // left, right, up, down, diagonal left up, diagonal left down, diagonal right up, diagonal right down 
+  let selectedBallColour = movedBall.classList[1];
+
+  console.log(selectedBallColour);
+  console.log(newCellID);
+  checkGridDirections.forEach(direction =>
+  {
+    let ballCount = 1;
+
+    let ballCountUp = 0;
+    let ballCountDown = 0;
+
+    let checkStepUp = 1;
+    let checkStepDown = 1;
+
+    let lineCellIDs = [newCellID];
+
+    while (true)
+    {
+      let checkCellUpID = newCellID + (direction * checkStepUp);
+
+      if (checkCellUpID < 0 || checkCellUpID > 80) break;
+
+      let checkCellUp = document.getElementById("cell" + checkCellUpID);
+
+      if (checkCellUp.classList.contains("hasBall") && checkCellUp.firstChild.classList.contains(selectedBallColour))
+      {
+        lineCellIDs.push(checkCellUpID);
+        ballCountUp++;
+        checkStepUp++;
+      }
+      else break;
+
+    }
+
+    while (true)
+    {
+      let checkCellDownID = newCellID - (direction * checkStepDown);
+
+      if (checkCellDownID < 0 || checkCellDownID > 80) break;
+
+      let checkCellDown = document.getElementById("cell" + checkCellDownID);
+
+      if (checkCellDown.classList.contains("hasBall") && checkCellDown.firstChild.classList.contains(selectedBallColour))
+      {
+        lineCellIDs.push(checkCellDownID);
+        ballCountDown++;
+        checkStepDown++;
+      }
+      else break;
+    }
+
+    //this is necessary to account for those instances when a line is completed by a ball being inserted into the middle of the line - that's why we check in both directions and add them up.
+    ballCount = 1 + ballCountUp + ballCountDown;
+
+    console.log(`Direction ${direction}: ${ballCount} balls`);
+    if (ballCount >= 5) //if we complete the line, remove the balls and give the player a free turn
+    {
+      console.log("Line completed!");
+      removeLine(lineCellIDs);
+    }
+    else
+    {
+
+    }
+
+  });
+}
+
+function removeLine(lineCellIDs)
+{
+  lineCellIDs.forEach(cellID =>
+  {
+    document.getElementById("cell" + cellID).classList.replace("hasBall", "noBall");
+    document.getElementById("cell" + cellID).firstChild.classList.remove("ball");
+    playerScore = playerScore + 2;
+  });
+  document.getElementById("playerScore").innerHTML = playerScore;
+  console.log(lineCellIDs);
 }
 
 function getRandomNumber(min, max)
