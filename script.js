@@ -6,6 +6,8 @@ const closeHelp = document.getElementById("closeHelp");
 const restartGame = document.getElementById("restart");
 
 let gameCells = [];
+let currentBallState = "";
+let currentCellState = "";
 
 let allowSound = true;
 let bounceSound = new Audio("/sounds/bounce-ball.mp3");
@@ -56,6 +58,8 @@ function firstCellClicked(e)
 {
   // create a variable for the clicked cell
   let firstClick = e.target;
+  console.log(e.target);
+  console.log(e.target.id);
 
   if (firstClick.id.includes("ball"))
     if (firstClick.classList.contains("selectedBall"))
@@ -66,14 +70,56 @@ function firstCellClicked(e)
       {
         generateBall();
       }
+      currentBallState = firstClick;
+      currentCellState = firstClick.parentNode;
     }
     else
     {
       document.getElementById(firstClick.id).classList.add("selectedBall");
       ballSounds("selectedBall");
-      //secondClick();
+      currentBallState = firstClick;
+      currentCellState = firstClick.parentNode;
     }
+
 }
+
+function secondCellClicked(e)
+{
+  // create a variable for the clicked cell
+  let secondClick = e.target;
+  if (secondClick.id.includes("ball"))
+  {
+    if (secondClick === currentBallState)
+    {
+      secondClick.classList.remove("selectedBall");
+      currentBallState = "";
+    }
+    else
+    {
+      if (secondClick.classList.contains("selectedBall"))
+      {
+        currentBallState.classList.remove("selectedBall");
+        document.getElementById(secondClick.id).classList.add("selectedBall");
+      }
+      else
+      {
+        currentBallState.classList.remove("selectedBall");
+        document.getElementById(secondClick.id).classList.add("selectedBall");
+      }
+      currentBallState = secondClick;
+      for (let i = 0; i < 3; i++)  //generate three more balls - this will later go to post-move area, but i just wanted to see something that works... 
+      {
+        generateBall();
+      }
+    }
+  }
+  else
+  {
+    currentCellState = secondClick;
+    console.log(currentCellState);
+  }
+}
+
 
 
 function ballSounds(ballType) // repeating bouncing ball sounds
@@ -92,25 +138,7 @@ function ballSounds(ballType) // repeating bouncing ball sounds
 
 }
 
-function secondCellClicked(e)
-{
-  // create a variable for the clicked cell
-  let secondClick = e.target;
 
-  if (secondClick.id.includes("ball"))
-    if (!secondClick.classList.contains("selectedBall"))
-    {
-      document.getElementById(firstClick.id).classList.remove("selectedBall");
-      for (let i = 0; i < 3; i++)  //generate three more balls - this will later go to post-move area, but i just wanted to see something that works... 
-      {
-        generateBall();
-      }
-    }
-    else
-    {
-      document.getElementById(firstClick.id).classList.add("selectedBall");
-    }
-}
 
 function generateBall()
 {
@@ -129,9 +157,7 @@ function generateBall()
     {
       if (document.getElementById("cell" + randomIndex).classList.contains("hasBall"))
       {
-        console.log("already ball there");
         randomIndex = getRandomNumber(0, 80);
-
       }
       else
       {
@@ -216,10 +242,15 @@ function startGame()
     generateBall();
   }
 
-  for (let i = 0; i < 81; i++)
+
+  document.getElementById("gameBoard").addEventListener("click", function (e)
   {
-    document.getElementById("cell" + i).onclick = firstCellClicked;
+    if (currentBallState === "")
+      firstCellClicked(e);
+    else
+      secondCellClicked(e);
   }
+  );
 }
 
 function randomColour()
