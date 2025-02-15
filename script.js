@@ -5,7 +5,6 @@ const gameTable = document.getElementById("gameBoard");
 const closeHelp = document.getElementById("closeHelp");
 const restartGame = document.getElementById("restart");
 
-let gameCells = [];
 let currentBallState = "";
 let currentCellState = "";
 
@@ -54,72 +53,52 @@ closeHelp.addEventListener("click", () => //close help
 
 restartGame.onclick = startGame; //restart the game button handle
 
-function firstCellClicked(e)
+function cellClicked(e)
 {
   // create a variable for the clicked cell
-  let firstClick = e.target;
-  console.log(e.target);
-  console.log(e.target.id);
+  let clickTarget = e.target;
 
-  if (firstClick.id.includes("ball"))
-    if (firstClick.classList.contains("selectedBall"))
+  if (currentBallState === "") //first click - no ball selected
+  {
+    if (clickTarget.id.includes("ball"))
     {
-      document.getElementById(firstClick.id).classList.remove("selectedBall");
-      ballSounds("");
-      for (let i = 0; i < 3; i++)  //generate three more balls - this will later go to post-move area, but i just wanted to see something that works... 
-      {
-        generateBall();
-      }
-      currentBallState = firstClick;
-      currentCellState = firstClick.parentNode;
-    }
-    else
-    {
-      document.getElementById(firstClick.id).classList.add("selectedBall");
+      clickTarget.classList.add("selectedBall");
       ballSounds("selectedBall");
-      currentBallState = firstClick;
-      currentCellState = firstClick.parentNode;
+      currentBallState = clickTarget;
+      currentCellState = clickTarget.parentNode;
     }
-
-}
-
-function secondCellClicked(e)
-{
-  // create a variable for the clicked cell
-  let secondClick = e.target;
-  if (secondClick.id.includes("ball"))
+  }
+  else // second click - we've clicked something before
   {
-    if (secondClick === currentBallState)
+    if (clickTarget.id.includes("ball")) // check if we clicked another ball
     {
-      secondClick.classList.remove("selectedBall");
-      currentBallState = "";
+      if (clickTarget === currentBallState) // check if  we clicked the same ball
+      {
+        clickTarget.classList.remove("selectedBall"); // then we deselect it
+        currentBallState = "";
+        ballSounds("");
+      }
+      else // we clicked a different ball - we deselect the previous ball and select the new one
+      {
+        currentBallState.classList.remove("selectedBall");
+        clickTarget.classList.add("selectedBall");
+        currentBallState = clickTarget;
+        currentCellState = clickTarget.parentNode;
+      }
     }
-    else
+    else // or if we clicked an empty cell
     {
-      if (secondClick.classList.contains("selectedBall"))
-      {
-        currentBallState.classList.remove("selectedBall");
-        document.getElementById(secondClick.id).classList.add("selectedBall");
-      }
-      else
-      {
-        currentBallState.classList.remove("selectedBall");
-        document.getElementById(secondClick.id).classList.add("selectedBall");
-      }
-      currentBallState = secondClick;
+      currentCellState = clickTarget;
+
+      moveBall(currentBallState, currentCellState);
       for (let i = 0; i < 3; i++)  //generate three more balls - this will later go to post-move area, but i just wanted to see something that works... 
       {
         generateBall();
       }
+      currentBallState = ""; //reset the ball state for future clicks
     }
   }
-  else
-  {
-    currentCellState = secondClick;
-    console.log(currentCellState);
-  }
 }
-
 
 
 function ballSounds(ballType) // repeating bouncing ball sounds
@@ -135,9 +114,7 @@ function ballSounds(ballType) // repeating bouncing ball sounds
   {
     bounceSound.pause();
   }
-
 }
-
 
 
 function generateBall()
@@ -151,7 +128,7 @@ function generateBall()
   let i = 1;
   while (i > 0) //keep checking so we don't put balls in a cell where there is already one
   {
-    if (document.getElementsByClassName("hasBall").length > 79)
+    if (document.getElementsByClassName("hasBall").length > 79) // break out of the loop if there are no more free cells left.
       return;
     else 
     {
@@ -170,60 +147,38 @@ function generateBall()
   }
 }
 
-
-// let i = 5;
-// while (i > 0)
-// {
-//   if (gameCell[randomIndex] === 0)
-//   {
-//     setCell(randomIndex, randomColour());
-//     i--;
-//   }
-// }
-// selectNextBalls();
-//}
-
-
-// function setCell(cellNumber, newColour)
-// {
-//   gameCell[cellNumber] = newColour;
-//   setCellState(cellNumber, newColour);
-// }
-
-
-// function setCellState(cellNumber, colour, selected)
-// {
-
-//   let cellChecked = document.getElementById("cell" + cellNumber);
-//   let ballChecked = document.getElementById("ball" + cellNumber);
-//   if (!cellChecked.classList.contains(colour))
-//     cellChecked.classList.add(colour);
-//   else
-//     cellChecked.classList.remove(colour);
-
-//   // if (!ballChecked.classList.contains(selected))
-//   //   ballChecked.classList.add("selectedBall");
-//   // else
-//   //   ballChecked.classList.remove("selectedBall");
-// }
-
-function generateBoard()
+function generateBoard() //generating the board dynamically. this could have been done by hard-coding it all out in HTML I guess
 {
   let cells = '';
-  let cellId = 0;
+  let cellID = 0;
   for (let i = 0; i < 9; i++)
   {
     cells += '<div class ="gameRow">';
     for (let j = 0; j < 9; j++)
     {
-      cellId = i * 9 + j;
-      cells += '<div id="cell' + cellId + '" class ="gameCell noBall"></div>';
+      cellID = i * 9 + j;
+      cells += '<div id="cell' + cellID + '" class ="gameCell noBall"></div>';
     }
     cells += '</div>';
   }
   gameTable.innerHTML = cells;
 }
 
+function moveBall(selectedBall, arrivingCell)
+{
+  let departingCell = selectedBall.parentNode;
+
+  if (currentCellState.classList.contains("noBall"))
+  {
+    departingCell.removeChild(selectedBall);
+    departingCell.classList.replace("hasBall", "noBall");
+
+    arrivingCell.appendChild(selectedBall);
+    arrivingCell.classList.replace("noBall", "hasBall");
+
+    selectedBall.classList.remove("selectedBall");
+  }
+}
 
 function getRandomNumber(min, max)
 {
@@ -242,15 +197,10 @@ function startGame()
     generateBall();
   }
 
-
   document.getElementById("gameBoard").addEventListener("click", function (e)
   {
-    if (currentBallState === "")
-      firstCellClicked(e);
-    else
-      secondCellClicked(e);
-  }
-  );
+    cellClicked(e);
+  });
 }
 
 function randomColour()

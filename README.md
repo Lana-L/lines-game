@@ -43,9 +43,9 @@ Here's a screenshot we're trying to work towards.
 
 ## Issues
 
-- Sometimes multiple calls go into the same cell. Tried hasChildNodes, children, firstChild, innerHTML...
+- Sometimes multiple calls go into the same cell. Tried hasChildNodes, children, firstChild, innerHTML... ✅ fixed with a while loop
+- How to stop first ball from animating when a different ball is clicked? ✅ fixed with tracking ball state global variable and a bunch of if/else
 - How to click to move?
-- How to stop first ball from animating when a different ball is clicked?
 
 ## Credits
 
