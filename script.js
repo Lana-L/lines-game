@@ -58,6 +58,10 @@ function cellClicked(e)
   // create a variable for the clicked cell
   let clickTarget = e.target;
 
+  //this is to handle those times when the player clicks on the edge of a cell that has a ball in it but not the ball itself, we make the ball selected anyway.
+  if (clickTarget.classList.contains('hasBall'))
+    clickTarget = clickTarget.firstChild;
+
   if (currentBallState === "") //first click - no ball selected
   {
     if (clickTarget.id.includes("ball"))
@@ -116,12 +120,8 @@ function ballSounds(ballType) // repeating bouncing ball sounds
 
 function generateBall()
 {
-  let ball = document.createElement("figure");
-
   let placeBallTries = 0;
   let maxPlaceBallTries = 81 - document.getElementsByClassName("hasBall").length;
-
-
 
   while (placeBallTries < maxPlaceBallTries) //keep checking so we don't put balls in a cell where there is already one
   {
@@ -129,6 +129,7 @@ function generateBall()
 
     if (!document.getElementById("cell" + randomIndex).classList.contains("hasBall"))
     {
+      let ball = document.createElement("figure");
       ball.classList.add("ball");
       ball.classList.add(randomColour()); // get a random colour for the ball
       ball.id = "ball" + randomIndex;
@@ -136,12 +137,8 @@ function generateBall()
       document.getElementById("cell" + randomIndex).classList.replace("noBall", "hasBall");
       return;
     }
-
     placeBallTries++;
   }
-
-  if (document.getElementsByClassName("hasBall").length > 80) // break out of the loop if there are no more free cells left.
-    return;
 }
 
 function generateBoard() //generating the board dynamically. this could have been done by hard-coding it all out in HTML I guess
@@ -177,7 +174,7 @@ function moveBall(selectedBall, arrivingCell)
 
     selectedBall.classList.remove("selectedBall");
   }
-  for (let i = 0; i < 3; i++)  //generate three more balls if a line was not completed on the move
+  for (let i = 0; i < 3; i++)  //generate three more balls if a line was not completed on the move. this should be line completion but doesn't work there yet. TO DO
   {
     generateBall();
   }
@@ -241,7 +238,6 @@ function checkLineCompletion(movedBall)
     //this is necessary to account for those instances when a line is completed by a ball being inserted into the middle of the line - that's why we check in both directions and add them up.
     ballCount = 1 + ballCountUp + ballCountDown;
 
-    console.log(`Direction ${direction}: ${ballCount} balls`);
     if (ballCount >= 5) //if we complete the line, remove the balls and give the player a free turn
     {
       console.log("Line completed!");
@@ -259,8 +255,8 @@ function removeLine(lineCellIDs)
 {
   lineCellIDs.forEach(cellID =>
   {
+    document.getElementById("cell" + cellID).firstChild.remove();
     document.getElementById("cell" + cellID).classList.replace("hasBall", "noBall");
-    document.getElementById("cell" + cellID).firstChild.classList.remove("ball");
     playerScore = playerScore + 2;
   });
   document.getElementById("playerScore").innerHTML = playerScore;
@@ -284,10 +280,8 @@ function startGame()
     generateBall();
   }
 
-  document.getElementById("gameBoard").addEventListener("click", function (e)
-  {
-    cellClicked(e);
-  });
+  document.getElementById("gameBoard").addEventListener("click", cellClicked);
+
 }
 
 function randomColour()
