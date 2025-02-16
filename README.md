@@ -13,21 +13,20 @@ Here's a screenshot we're trying to work towards.
 ### Gameplay
 
 - 9x9 grid ✅
-
 - Generate five random balls on start. ✅
 - Generate three new balls on each turn (random out of possible seven colours). ✅
   - If the player's move does not complete a line of five or more, then three more balls appear in random places. ✅
   - If the player's move completes a line of five or more, then they get another move without more random balls appearing.
 - Click to activate a ball and to deactivate the ball. ✅
-- Second click to move the selected ball.
+- Second click to move the selected ball. ✅
 - The ball finds the path, accounting for barriers from other balls.
-  - MVP: the ball teleports to the second click.
+  - MVP: the ball teleports to the second click. ✅
 
 ### Scoring
 
-- Each ball is two points, so one minimum successful line of five balls is 10 points, but longer lines can be made (eg, six balls - 12 points).
+- Each ball is two points, so one minimum successful line of five balls is 10 points, but longer lines can be made (eg, six balls - 12 points). ✅
 
-- Round win condition: five in a row of the same colour.
+- Round win condition: at least five in a row of the same colour. ✅
 
 - Lose condition: the game ends when all cells are filled with balls and no more moves are possible.
 
@@ -39,13 +38,13 @@ Here's a screenshot we're trying to work towards.
 
 - Game win condition: getting more points than the king (100), winning sound plays and graphics change (the player is now the king). Then the game continues.
 
-- Old school 8 bit sounds for bouncing balls.
+- Old school 8 bit sounds for bouncing balls. ✅
 
 ## Issues
 
 - Sometimes multiple calls go into the same cell. Tried hasChildNodes, children, firstChild, innerHTML... ✅ fixed with a while loop
 - How to stop first ball from animating when a different ball is clicked? ✅ fixed with tracking ball state global variable and a bunch of if/else
-- How to click to move?
+- How to click to move? ✅ - track currently selected cell, the ball, and the new selected cell, delete the ball from the old cell and add it to the new one.
 
 ## Credits
 

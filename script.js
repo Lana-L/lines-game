@@ -39,6 +39,8 @@ startGame();
 soundOption.addEventListener("click", () => //sound option toggle
 {
   allowSound = !allowSound;
+  if (!allowSound) ballSounds("");
+  if (currentBallState != "" && currentBallState.classList.contains("selectedBall")) ballSounds("selectedBall");
 });
 
 help.addEventListener("click", () => //open help
@@ -105,7 +107,11 @@ function cellClicked(e)
 function ballSounds(ballType) // repeating bouncing ball sounds
 {
   if (!allowSound)
+  {
+    bounceSound.pause();
     return;
+  }
+
   if (ballType === "selectedBall")
   {
     bounceSound.loop = true;
@@ -173,21 +179,19 @@ function moveBall(selectedBall, arrivingCell)
     checkLineCompletion(selectedBall);
 
     selectedBall.classList.remove("selectedBall");
+    ballSounds("");
   }
-  for (let i = 0; i < 3; i++)  //generate three more balls if a line was not completed on the move. this should be line completion but doesn't work there yet. TO DO
-  {
-    generateBall();
-  }
+
 }
 
 function checkLineCompletion(movedBall)
 {
-  let newCellID = 1 * (movedBall.parentNode.id.replace("cell", ""));
-  let checkGridDirections = [-1, 1, -9, 9, -8, 8, -10, 10]; // left, right, up, down, diagonal left up, diagonal left down, diagonal right up, diagonal right down 
-  let selectedBallColour = movedBall.classList[1];
+  const newCellID = 1 * (movedBall.parentNode.id.replace("cell", ""));
+  const checkGridDirections = [-1, 1, -9, 9, -8, 8, -10, 10]; // left, right, up, down, diagonal left up, diagonal left down, diagonal right up, diagonal right down 
+  const selectedBallColour = movedBall.classList[1];
 
-  console.log(selectedBallColour);
-  console.log(newCellID);
+  let lineCompleted = false;
+
   checkGridDirections.forEach(direction =>
   {
     let ballCount = 1;
@@ -215,7 +219,6 @@ function checkLineCompletion(movedBall)
         checkStepUp++;
       }
       else break;
-
     }
 
     while (true)
@@ -240,15 +243,16 @@ function checkLineCompletion(movedBall)
 
     if (ballCount >= 5) //if we complete the line, remove the balls and give the player a free turn
     {
-      console.log("Line completed!");
+      lineCompleted = true;
       removeLine(lineCellIDs);
     }
-    else
-    {
-
-    }
-
   });
+
+  if (lineCompleted == false)
+    for (let i = 0; i < 3; i++)  //generate three more balls if a line was not completed on the move. 
+    {
+      generateBall();
+    }
 }
 
 function removeLine(lineCellIDs)
@@ -272,8 +276,8 @@ function getRandomNumber(min, max)
 
 function startGame()
 {
-
   generateBoard();
+  playerScore = 0;
 
   for (let i = 0; i < 5; i++)  //first time we generate five
   {
@@ -281,7 +285,6 @@ function startGame()
   }
 
   document.getElementById("gameBoard").addEventListener("click", cellClicked);
-
 }
 
 function randomColour()
