@@ -5,6 +5,8 @@ const gameTable = document.getElementById("gameBoard");
 const closeHelp = document.getElementById("closeHelp");
 const restartGame = document.getElementById("restart");
 
+const checkGridDirections = [-1, 1, -9, 9, -8, 8, -10, 10]; // left, right, up, down, diagonal left up, diagonal left down, diagonal right up, diagonal right down 
+
 let currentBallState = "";
 let currentCellState = "";
 
@@ -103,7 +105,6 @@ function cellClicked(e)
   }
 }
 
-
 function ballSounds(ballType) // repeating bouncing ball sounds
 {
   if (!allowSound)
@@ -123,13 +124,11 @@ function ballSounds(ballType) // repeating bouncing ball sounds
   }
 }
 
-
 function generateBall()
 {
   let placeBallTries = 0;
-  let maxPlaceBallTries = 81 - document.getElementsByClassName("hasBall").length;
 
-  while (placeBallTries < maxPlaceBallTries) //keep checking so we don't put balls in a cell where there is already one
+  while (placeBallTries < 81) //keep checking so we don't put balls in a cell where there is already one
   {
     let randomIndex = getRandomNumber(0, 80);
 
@@ -181,13 +180,12 @@ function moveBall(selectedBall, arrivingCell)
     selectedBall.classList.remove("selectedBall");
     ballSounds("");
   }
-
 }
 
 function checkLineCompletion(movedBall)
 {
   const newCellID = 1 * (movedBall.parentNode.id.replace("cell", ""));
-  const checkGridDirections = [-1, 1, -9, 9, -8, 8, -10, 10]; // left, right, up, down, diagonal left up, diagonal left down, diagonal right up, diagonal right down 
+
   const selectedBallColour = movedBall.classList[1];
 
   let lineCompleted = false;
@@ -263,8 +261,13 @@ function removeLine(lineCellIDs)
     document.getElementById("cell" + cellID).classList.replace("hasBall", "noBall");
     playerScore = playerScore + 2;
   });
+
+  updateScore();
+}
+
+function updateScore()
+{
   document.getElementById("playerScore").innerHTML = playerScore;
-  console.log(lineCellIDs);
 }
 
 function getRandomNumber(min, max)
@@ -283,7 +286,7 @@ function startGame()
   {
     generateBall();
   }
-
+  updateScore();
   document.getElementById("gameBoard").addEventListener("click", cellClicked);
 }
 
