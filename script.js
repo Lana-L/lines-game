@@ -43,7 +43,13 @@ soundOption.addEventListener("click", () => //sound option toggle
   allowSound = !allowSound;
   if (!allowSound) ballSounds("");
   if (currentBallState != "" && currentBallState.classList.contains("selectedBall")) ballSounds("selectedBall");
+
+  if (allowSound === true)
+    document.getElementById("soundText").style.color = "rgb(7, 161, 7)";
+  else
+    document.getElementById("soundText").style.color = "grey";
 });
+
 
 help.addEventListener("click", () => //open help
 {
@@ -107,7 +113,7 @@ function cellClicked(e)
 
 function ballSounds(ballType) // repeating bouncing ball sounds
 {
-  if (!allowSound)
+  if (allowSound === false)
   {
     bounceSound.pause();
     return;
@@ -117,6 +123,8 @@ function ballSounds(ballType) // repeating bouncing ball sounds
   {
     bounceSound.loop = true;
     bounceSound.play();
+
+
   }
   else 
   {
@@ -267,7 +275,10 @@ function removeLine(lineCellIDs)
 
 function updateScore()
 {
-  document.getElementById("playerScore").innerHTML = playerScore;
+  document.getElementById("champion").style.height = (highScores[0].score + 50) + "px";
+  document.getElementById("championScore").innerHTML = highScores[0].score;
+  document.getElementById("challengerScore").innerHTML = playerScore;
+  document.getElementById("challenger").style.height = (playerScore + 50) + "px";
 }
 
 function getRandomNumber(min, max)
@@ -289,6 +300,7 @@ function startGame()
   updateScore();
   document.getElementById("gameBoard").addEventListener("click", cellClicked);
 }
+
 
 function randomColour()
 {

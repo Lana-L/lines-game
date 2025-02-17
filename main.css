@@ -1,25 +1,27 @@
 .page {
   display: grid;
   grid-auto-rows: 1fr;
-  grid-template-rows: 0.7fr 0.3fr;
-  grid-template-columns: 0.9fr 1.1fr 0.9fr;
-  gap: 30px;
+  grid-template-rows: 0.7fr 0.5fr;
+  grid-template-columns: 0.8fr 1.5fr 0.8fr;
   grid-template-areas:
-    "menu game scores"
-    "timer . leaderboard";
+    "challenger game leaderboard"
+    ". menu .";
+  background-color: #000;
+  border: 15px solid #c0c0c0;
+  box-shadow: inset -2px -2px 3px rgba(0, 0, 0, 0.6), inset 2px 2px 3px rgba(255, 255, 255, 0.6), 4px 4px 6px rgba(0, 0, 0, 0.6), -4px -4px 6px rgba(255, 255, 255, 0.6);
+  position: relative;
 }
 
 body {
   font-family: "Rye", cursive;
+  color: #f1f1f1;
+  background-color: #c0c0c0;
+
+  height: 500px;
 }
 
 .game {
   grid-area: game;
-}
-
-.scores {
-  margin-top: 200px;
-  grid-area: scores;
 }
 
 .leaderboard {
@@ -27,30 +29,49 @@ body {
   grid-area: leaderboard;
 }
 
-.timer {
+.progress {
+  grid-area: challenger;
+  margin-left: 100px;
   margin-top: 100px;
-  grid-area: timer;
+  position: relative;
 }
 
-.scores p,
-.scores h2 {
-  text-align: left;
-  margin-right: 3vw;
+.cylinderSet {
+  display: inline-block;
+  margin-left: 50px;
+  text-align: center;
+}
+
+.cylinder {
+  width: 70px;
+  background-color: #c0c0c0;
+  border-radius: 50% / 10%;
+  border: solid #000;
+  border-width: 10px 10px 10px 10px;
+  border-top-color: #e6e6e6;
+  border-left-color: #e9e9e9;
+  border-bottom-color: #757575;
+  border-right-color: #505050;
+  position: absolute;
+  bottom: 0;
+  margin-left: 15px;
 }
 
 .menu {
-  margin-top: 200px;
   grid-area: menu;
+  position: absolute;
+  bottom: 0;
+  left: 6%;
 }
 
 .menu h2 {
   text-align: left;
-  margin-left: 17vw;
 }
 
 .buttonSet {
   display: inline-block;
-  margin-left: 17vw;
+
+  place-items: center;
 }
 
 .menu button {
@@ -71,7 +92,6 @@ body {
   padding: 5px 5px;
   width: 60px;
   height: 60px;
-  transition: all 0.1s;
 }
 
 button:active {
@@ -86,16 +106,15 @@ button:active {
   border-width: 10px 10px 10px 10px;
   margin: 0;
   text-align: center;
-  height: 40px;
-  width: 140px;
+  height: 30px;
+  width: 110px;
   color: rgb(7, 161, 7);
   font-family: monospace;
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-transform: uppercase;
 }
 
 h1 {
-  margin-top: 100px;
   margin-bottom: 50px;
   font-size: 3em;
   text-align: center;
@@ -128,7 +147,7 @@ h1 {
 }
 
 .topTimers {
-  background-color: lightpink;
+  background-color: #c0c0c0;
   height: auto;
   width: auto;
   align-self: normal;
@@ -143,10 +162,6 @@ h1 {
 
 .leadersRow {
   display: table-row;
-}
-
-.container {
-  text-align: center;
 }
 
 .ball {

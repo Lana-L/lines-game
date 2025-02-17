@@ -12,15 +12,26 @@
 <body>
 
   <div class="page">
+    <div class="progress">
+      <div class="cylinderSet">
+        <p>Reigning Champion</p>
+        <p id="championScore" class="optionText" style="text-align: right;">100</p>
+        <div class="cylinder" id="champion" style="height: 150px;"></div>
+      </div>
+      <div class="cylinderSet">
+        <p>Challenger</p>
+        <p id="challengerScore" class="optionText" style="text-align: right;">0</p>
+        <div class="cylinder" id="challenger" style="height: 50px;"></div>
+      </div>
+    </div>
     <aside class="menu">
-      <h2>Options</h2>
       <div class="buttonSet">
         <button id="help">F1</button>
         <p class="optionText">Help</p>
       </div>
       <div class="buttonSet">
         <button id="sound">F2</button>
-        <p class="optionText">Sound</p>
+        <p class="optionText" id="soundText">Sound</p>
       </div>
       <div class="buttonSet">
         <button id="next">F3</button>
@@ -41,41 +52,35 @@
         <button id="closeHelp">Close Help</button>
       </dialog>
     </main>
-    <aside class="scores">
-      <h2>Score</h2>
-      <p id="playerScore">0</p>
-      <p id="timedClicks">Score to beat: 100</p>
-      <section class="leaderboard">
-        <h2>Leaderboard</h2>
-        <p>Top scorers</p>
-        <div class="leaders">
-          <div class="leadersRow">
-            <div class="topTimers">#1</div>
-            <div class="topTimers" id="winner1Name">John</div>
-            <div class="topTimers" id="winner1Score">170</div>
-          </div>
-          <div class="leadersRow">
-            <div class="topTimers">#2</div>
-            <div class="topTimers" id="winner2Name">Jenny</div>
-            <div class="topTimers" id="winner2Score">130</div>
-          </div>
-          <div class="leadersRow">
-            <div class="topTimers">#3</div>
-            <div class="topTimers" id="winner3Name">Bob</div>
-            <div class="topTimers" id="winner3Score">120</div>
-          </div>
-          <div class="leadersRow">
-            <div class="topTimers">#4</div>
-            <div class="topTimers" id="winner4Name">Angela</div>
-            <div class="topTimers" id="winner4Score">116</div>
-          </div>
-          <div class="leadersRow">
-            <div class="topTimers">#5</div>
-            <div class="topTimers" id="winner5Name">Jim</div>
-            <div class="topTimers" id="winner5Score">102</div>
-          </div>
+    <aside class="leaderboard">
+      <h2>Leaderboard</h2>
+      <div class="leaders">
+        <div class="leadersRow">
+          <div class="topTimers">#1</div>
+          <div class="topTimers" id="winner1Name">John</div>
+          <div class="topTimers" id="winner1Score">170</div>
         </div>
-      </section>
+        <div class="leadersRow">
+          <div class="topTimers">#2</div>
+          <div class="topTimers" id="winner2Name">Jenny</div>
+          <div class="topTimers" id="winner2Score">130</div>
+        </div>
+        <div class="leadersRow">
+          <div class="topTimers">#3</div>
+          <div class="topTimers" id="winner3Name">Bob</div>
+          <div class="topTimers" id="winner3Score">120</div>
+        </div>
+        <div class="leadersRow">
+          <div class="topTimers">#4</div>
+          <div class="topTimers" id="winner4Name">Angela</div>
+          <div class="topTimers" id="winner4Score">116</div>
+        </div>
+        <div class="leadersRow">
+          <div class="topTimers">#5</div>
+          <div class="topTimers" id="winner5Name">Jim</div>
+          <div class="topTimers" id="winner5Score">102</div>
+        </div>
+      </div>
     </aside>
 
   </div>

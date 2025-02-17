@@ -16,7 +16,7 @@ Here's a screenshot we're trying to work towards.
 - Generate five random balls on start. ✅
 - Generate three new balls on each turn (random out of possible seven colours). ✅
   - If the player's move does not complete a line of five or more, then three more balls appear in random places. ✅
-  - If the player's move completes a line of five or more, then they get another move without more random balls appearing.
+  - If the player's move completes a line of five or more, then they get another move without more random balls appearing.✅
 - Click to activate a ball and to deactivate the ball. ✅
 - Second click to move the selected ball. ✅
 - The ball finds the path, accounting for barriers from other balls.
@@ -36,7 +36,7 @@ Here's a screenshot we're trying to work towards.
 
 - Balls that compress on bounce. ✅
 
-- Game win condition: getting more points than the king (100), winning sound plays and graphics change (the player is now the king). Then the game continues.
+- Game win condition: getting more points than the champion (top person on the leaderboard), winning sound plays and graphics change (the player is now the king). Then the game continues.
 
 - Old school 8 bit sounds for bouncing balls. ✅
 
