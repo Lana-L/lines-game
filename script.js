@@ -7,7 +7,6 @@ const restartGame = document.getElementById("restart");
 
 const checkGridDirections = [-1, 1, -9, 9, -8, 8, -10, 10];
 const moveDirections = [-1, 1, -9, 9];
-let currentPath = null;
 
 let currentBallState = "";
 let currentCellState = "";
@@ -139,9 +138,6 @@ function generateBall()
 {
   let placeBallTries = 0;
 
-  console.log('Attempting to generate ball');
-  console.log('Current balls on board:', document.getElementsByClassName("hasBall").length);
-
   while (placeBallTries < 81) {
     //keep checking so we don't put balls in a cell where there is already one
     let randomIndex = getRandomNumber(0, 80);
@@ -155,12 +151,9 @@ function generateBall()
       document.getElementById("cell" + randomIndex).appendChild(ball);
       document.getElementById("cell" + randomIndex).classList.replace("noBall", "hasBall");
 
-      console.log('Ball generated in cell:', randomIndex);
-
       return;
     }
     placeBallTries++;
-    //checkLineCompletion(ball);
   }
 
 }
@@ -221,10 +214,12 @@ function calculatePath(selectedBall, arrivingCell)
   let newCell = arrivingCell.id.replace("cell", "") * 1;
 
   const queue = [[departingCell]];
+  let queueStep = 0;
   const visited = new Set();
 
-  while (queue.length > 0) {
-    currentPath = queue.shift();
+  while (queueStep < queue.length) {
+    const currentPath = queue[queueStep];
+    queueStep++;
     const currentCell = currentPath[currentPath.length - 1];
 
     if (currentCell === newCell) {
@@ -246,8 +241,6 @@ function calculatePath(selectedBall, arrivingCell)
   return null;
 }
 
-
-
 function checkLineCompletion(movedBall)
 {
   const newCellID = 1 * movedBall.parentNode.id.replace("cell", "");
@@ -255,10 +248,6 @@ function checkLineCompletion(movedBall)
   const selectedBallColour = movedBall.classList[1];
 
   let lineCompleted = false;
-
-  console.log('Checking line for ball:', movedBall);
-  console.log('Ball color:', selectedBallColour);
-  console.log('Starting cell:', newCellID);
 
   checkGridDirections.forEach((direction) =>
   {
@@ -272,18 +261,12 @@ function checkLineCompletion(movedBall)
 
     let lineCellIDs = [newCellID];
 
-    console.log('Checking direction:', direction);
-
     while (true) {
       let checkCellUpID = newCellID + direction * checkStepUp;
 
       if (checkCellUpID < 0 || checkCellUpID > 80) break;
 
       let checkCellUp = document.getElementById("cell" + checkCellUpID);
-
-      console.log('Checking up cell:', checkCellUpID);
-      console.log('Cell has ball:', checkCellUp.classList.contains("hasBall"));
-      console.log('Ball color matches:', checkCellUp.firstChild?.classList.contains(selectedBallColour));
 
       if (checkCellUp.classList.contains("hasBall") && checkCellUp.firstChild.classList.contains(selectedBallColour)) {
         lineCellIDs.push(checkCellUpID);
@@ -299,10 +282,6 @@ function checkLineCompletion(movedBall)
 
       let checkCellDown = document.getElementById("cell" + checkCellDownID);
 
-      console.log('Checking down cell:', checkCellDownID);
-      console.log('Cell has ball:', checkCellDown.classList.contains("hasBall"));
-      console.log('Ball color matches:', checkCellDown.firstChild?.classList.contains(selectedBallColour));
-
       if (checkCellDown.classList.contains("hasBall") && checkCellDown.firstChild.classList.contains(selectedBallColour)) {
         lineCellIDs.push(checkCellDownID);
         ballCountDown++;
@@ -312,9 +291,6 @@ function checkLineCompletion(movedBall)
 
     //this is necessary to account for those instances when a line is completed by a ball being inserted into the middle of the line - that's why we check in both directions and add them up.
     ballCount = 1 + ballCountUp + ballCountDown;
-
-    console.log('Ball count:', ballCount);
-    console.log('Line cell IDs:', lineCellIDs);
 
     if (ballCount >= 5) {
       //if we complete the line, remove the balls and give the player a free turn
