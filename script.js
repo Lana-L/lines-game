@@ -1,6 +1,8 @@
 const soundOption = document.getElementById("sound");
 const helpButton = document.getElementById("help");
 const dialog = document.getElementById("helpGuide");
+const gameOver = document.getElementById("gameOver");
+const closeGameOver = document.getElementById("closeGameOver");
 const gameTable = document.getElementById("gameBoard");
 const closeHelp = document.getElementById("closeHelp");
 const restartGame = document.getElementById("restart");
@@ -40,35 +42,34 @@ let highScores = [
 startGame();
 
 soundOption.addEventListener("click", () =>
-//sound option toggle
-{
-  allowSound = !allowSound;
-  if (!allowSound) ballSounds("");
-  if (currentBallState != "" && currentBallState.classList.contains("selectedBall")) ballSounds("selectedBall");
+  //sound option toggle
+  {
+    allowSound = !allowSound;
+    if (!allowSound) ballSounds("");
+    if (currentBallState != "" && currentBallState.classList.contains("selectedBall")) ballSounds("selectedBall");
 
-  if (allowSound === true) document.getElementById("soundText").style.color = "rgb(7, 161, 7)";
-  else document.getElementById("soundText").style.color = "grey";
-}
+    if (allowSound === true) document.getElementById("soundText").style.color = "rgb(7, 161, 7)";
+    else document.getElementById("soundText").style.color = "grey";
+  }
 );
 
 help.addEventListener("click", () =>
-//open help
-{
-  dialog.showModal();
-}
+  //open help
+  {
+    dialog.showModal();
+  }
 );
 
 closeHelp.addEventListener("click", () =>
-//close help
-{
-  dialog.close();
-}
+  //close help
+  {
+    dialog.close();
+  }
 );
 
 restartGame.onclick = startGame; //restart the game button handle
 
-function cellClicked(e)
-{
+function cellClicked(e) {
   // create a variable for the clicked cell
   let clickTarget = e.target;
 
@@ -94,8 +95,7 @@ function cellClicked(e)
         ballSounds("");
       } // we clicked a different ball - we deselect the previous ball and select the new one
       else {
-        if (currentBallState)
-          currentBallState.classList.remove("selectedBall");
+        if (currentBallState) currentBallState.classList.remove("selectedBall");
         clickTarget.classList.add("selectedBall");
         currentBallState = clickTarget;
         currentCellState = clickTarget.parentNode;
@@ -114,8 +114,7 @@ function cellClicked(e)
   }
 }
 
-function ballSounds(ballType)
-{
+function ballSounds(ballType) {
   // repeating bouncing ball sounds
   if (allowSound === false) {
     bounceSound.pause();
@@ -128,14 +127,12 @@ function ballSounds(ballType)
   } else if (ballType === "move") {
     bounceSound.currentTime = 0;
     bounceSound.play();
-  }
-  else {
+  } else {
     bounceSound.pause();
   }
 }
 
-function generateBall()
-{
+function generateBall() {
   let placeBallTries = 0;
 
   while (placeBallTries < 81) {
@@ -156,10 +153,22 @@ function generateBall()
     placeBallTries++;
   }
 
+  if (placeBallTries > 80) endGame();
 }
 
-function generateBoard()
-{
+function endGame() {
+  console.log("game over");
+  gameOver.showModal();
+  closeGameOver.addEventListener("click", () =>
+    //close end game screen
+    {
+      gameOver.close();
+      startGame();
+    }
+  );
+}
+
+function generateBoard() {
   //generating the board dynamically. this could have been done by hard-coding it all out in HTML I guess
   let cells = "";
   let cellID = 0;
@@ -174,13 +183,10 @@ function generateBoard()
   gameTable.innerHTML = cells;
 }
 
-function moveBallAlongPath(path, selectedBall)
-{
-  if (!path)
-    return;
+function moveBallAlongPath(path, selectedBall) {
+  if (!path) return;
 
-  function moveStep(i)
-  {
+  function moveStep(i) {
     if (i < path.length - 1) {
       const currentCell = document.getElementById("cell" + path[i]);
       const nextCell = document.getElementById("cell" + path[i + 1]);
@@ -193,12 +199,10 @@ function moveBallAlongPath(path, selectedBall)
       currentCell.classList.replace("hasBall", "noBall");
       nextCell.classList.replace("noBall", "hasBall");
 
-      setTimeout(() =>
-      {
+      setTimeout(() => {
         moveStep(i + 1);
       }, 40);
-    }
-    else {
+    } else {
       checkLineCompletion(selectedBall);
       selectedBall.classList.remove("selectedBall");
       currentBallState = "";
@@ -208,8 +212,7 @@ function moveBallAlongPath(path, selectedBall)
   moveStep(0);
 }
 
-function calculatePath(selectedBall, arrivingCell)
-{
+function calculatePath(selectedBall, arrivingCell) {
   let departingCell = selectedBall.parentNode.id.replace("cell", "") * 1;
   let newCell = arrivingCell.id.replace("cell", "") * 1;
 
@@ -231,7 +234,7 @@ function calculatePath(selectedBall, arrivingCell)
 
     for (let direction of moveDirections) {
       const neighbour = currentCell + direction;
-      if (neighbour >= 0 && neighbour <= 80 && !document.getElementById("cell" + neighbour).classList.contains("hasBall") && Math.abs(neighbour % 9 - currentCell % 9) <= 1) {
+      if (neighbour >= 0 && neighbour <= 80 && !document.getElementById("cell" + neighbour).classList.contains("hasBall") && Math.abs((neighbour % 9) - (currentCell % 9)) <= 1) {
         if (!visited.has(neighbour)) {
           queue.push([...currentPath, neighbour]);
         }
@@ -241,16 +244,14 @@ function calculatePath(selectedBall, arrivingCell)
   return null;
 }
 
-function checkLineCompletion(movedBall)
-{
+function checkLineCompletion(movedBall) {
   const newCellID = 1 * movedBall.parentNode.id.replace("cell", "");
 
   const selectedBallColour = movedBall.classList[1];
 
   let lineCompleted = false;
 
-  checkGridDirections.forEach((direction) =>
-  {
+  checkGridDirections.forEach((direction) => {
     let ballCount = 1;
 
     let ballCountUp = 0;
@@ -309,10 +310,8 @@ function checkLineCompletion(movedBall)
     }
 }
 
-function removeLine(lineCellIDs)
-{
-  lineCellIDs.forEach((cellID) =>
-  {
+function removeLine(lineCellIDs) {
+  lineCellIDs.forEach((cellID) => {
     document.getElementById("cell" + cellID).firstChild.remove();
     document.getElementById("cell" + cellID).classList.replace("hasBall", "noBall");
     playerScore = playerScore + 2;
@@ -321,8 +320,7 @@ function removeLine(lineCellIDs)
   updateScore();
 }
 
-function updateScore()
-{
+function updateScore() {
   document.getElementById("champion").style.height = highScores[0].score + 50 + "px";
   document.getElementById("championScore").innerHTML = highScores[0].score;
   document.getElementById("challengerScore").innerHTML = playerScore;
@@ -330,15 +328,13 @@ function updateScore()
   else document.getElementById("challenger").style.height = 350 + "px";
 }
 
-function getRandomNumber(min, max)
-{
+function getRandomNumber(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function startGame()
-{
+function startGame() {
   generateBoard();
   playerScore = 0;
 
@@ -353,8 +349,7 @@ function startGame()
   document.getElementById("gameBoard").addEventListener("click", cellClicked);
 }
 
-function randomColour()
-{
+function randomColour() {
   //we have a set of seven ball colours and we pick one at random
   let colours = ["ballYellow", "ballGreen", "ballBrown", "ballPink", "ballBlue", "ballLightBlue", "ballRed"];
   let colour = colours[getRandomNumber(0, colours.length - 1)];

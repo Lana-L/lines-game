@@ -1,90 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Lines</title>
+    <link rel="icon" href="#" sizes="any" />
+    <link rel="stylesheet" href="./main.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Lines</title>
-  <link rel="icon" href="#" sizes="any" />
-  <link rel="stylesheet" href="./main.css" />
-</head>
-
-<body>
-
-  <div class="page">
-    <div class="progress">
-      <div class="cylinderSet">
-        <p>Reigning Champion</p>
-        <p id="championScore" class="optionText" style="text-align: right;">100</p>
-        <div class="cylinder" id="champion" style="height: 150px;"></div>
+  <body>
+    <div class="page">
+      <div class="progress">
+        <div class="cylinderSet">
+          <p>Reigning Champion</p>
+          <p id="championScore" class="optionText" style="text-align: right">100</p>
+          <div class="cylinder" id="champion" style="height: 150px"></div>
+        </div>
+        <div class="cylinderSet">
+          <p>Challenger</p>
+          <p id="challengerScore" class="optionText" style="text-align: right">0</p>
+          <div class="cylinder" id="challenger" style="height: 50px"></div>
+        </div>
       </div>
-      <div class="cylinderSet">
-        <p>Challenger</p>
-        <p id="challengerScore" class="optionText" style="text-align: right;">0</p>
-        <div class="cylinder" id="challenger" style="height: 50px;"></div>
-      </div>
+      <aside class="menu">
+        <div class="buttonSet">
+          <button id="help">F1</button>
+          <p class="optionText">Help</p>
+        </div>
+        <div class="buttonSet">
+          <button id="sound">F2</button>
+          <p class="optionText" id="soundText">Sound</p>
+        </div>
+        <div class="buttonSet">
+          <button id="next">F3</button>
+          <p class="optionText">Next</p>
+        </div>
+        <div class="buttonSet">
+          <button id="restart">F4</button>
+          <p class="optionText">Restart</p>
+        </div>
+      </aside>
+      <main class="game">
+        <h1>Lines</h1>
+        <div id="gameBoard"></div>
+        <dialog id="helpGuide">
+          <p>Click on a ball to activate it.</p>
+          <p>Click somewhere else to move it.</p>
+          <p>Make a line of five or more in a row.</p>
+          <p>Every turn that you don't make a complete line, three more balls will appear.</p>
+          <button id="closeHelp">Close Help</button>
+        </dialog>
+        <dialog id="gameOver">
+          <p>Game Over</p>
+          <button id="closeGameOver">Play Again</button>
+        </dialog>
+      </main>
+      <aside class="leaderboard">
+        <h2>Leaderboard</h2>
+        <div class="leaders">
+          <div class="leadersRow">
+            <div class="topTimers">#1</div>
+            <div class="topTimers" id="winner1Name">John</div>
+            <div class="topTimers" id="winner1Score">170</div>
+          </div>
+          <div class="leadersRow">
+            <div class="topTimers">#2</div>
+            <div class="topTimers" id="winner2Name">Jenny</div>
+            <div class="topTimers" id="winner2Score">130</div>
+          </div>
+          <div class="leadersRow">
+            <div class="topTimers">#3</div>
+            <div class="topTimers" id="winner3Name">Bob</div>
+            <div class="topTimers" id="winner3Score">120</div>
+          </div>
+          <div class="leadersRow">
+            <div class="topTimers">#4</div>
+            <div class="topTimers" id="winner4Name">Angela</div>
+            <div class="topTimers" id="winner4Score">116</div>
+          </div>
+          <div class="leadersRow">
+            <div class="topTimers">#5</div>
+            <div class="topTimers" id="winner5Name">Jim</div>
+            <div class="topTimers" id="winner5Score">102</div>
+          </div>
+        </div>
+      </aside>
     </div>
-    <aside class="menu">
-      <div class="buttonSet">
-        <button id="help">F1</button>
-        <p class="optionText">Help</p>
-      </div>
-      <div class="buttonSet">
-        <button id="sound">F2</button>
-        <p class="optionText" id="soundText">Sound</p>
-      </div>
-      <div class="buttonSet">
-        <button id="next">F3</button>
-        <p class="optionText">Next</p>
-      </div>
-      <div class="buttonSet"><button id="restart">F4</button>
-        <p class="optionText">Restart</p>
-      </div>
-    </aside>
-    <main class="game">
-      <h1>Lines</h1>
-      <div id="gameBoard"></div>
-      <dialog id="helpGuide">
-        <p>Click on a ball to activate it.</p>
-        <p>Click somewhere else to move it.</p>
-        <p>Make a line of five or more in a row.</p>
-        <p>Every turn that you don't make a complete line, three more balls will appear.</p>
-        <button id="closeHelp">Close Help</button>
-      </dialog>
-    </main>
-    <aside class="leaderboard">
-      <h2>Leaderboard</h2>
-      <div class="leaders">
-        <div class="leadersRow">
-          <div class="topTimers">#1</div>
-          <div class="topTimers" id="winner1Name">John</div>
-          <div class="topTimers" id="winner1Score">170</div>
-        </div>
-        <div class="leadersRow">
-          <div class="topTimers">#2</div>
-          <div class="topTimers" id="winner2Name">Jenny</div>
-          <div class="topTimers" id="winner2Score">130</div>
-        </div>
-        <div class="leadersRow">
-          <div class="topTimers">#3</div>
-          <div class="topTimers" id="winner3Name">Bob</div>
-          <div class="topTimers" id="winner3Score">120</div>
-        </div>
-        <div class="leadersRow">
-          <div class="topTimers">#4</div>
-          <div class="topTimers" id="winner4Name">Angela</div>
-          <div class="topTimers" id="winner4Score">116</div>
-        </div>
-        <div class="leadersRow">
-          <div class="topTimers">#5</div>
-          <div class="topTimers" id="winner5Name">Jim</div>
-          <div class="topTimers" id="winner5Score">102</div>
-        </div>
-      </div>
-    </aside>
-
-  </div>
-  <script type="module" src="script.js"></script>
-</body>
-
+    <script type="module" src="script.js"></script>
+  </body>
 </html>
