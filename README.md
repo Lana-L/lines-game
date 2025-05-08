@@ -19,7 +19,7 @@ Here's a screenshot we're trying to work towards.
   - If the player's move completes a line of five or more, then they get another move without more random balls appearing.✅
 - Click to activate a ball and to deactivate the ball. ✅
 - Second click to move the selected ball. ✅
-- The ball finds the path, accounting for barriers from other balls.
+- The ball finds the path, accounting for barriers from other balls.✅
   - MVP: the ball teleports to the second click. ✅
 
 ### Scoring
@@ -28,7 +28,7 @@ Here's a screenshot we're trying to work towards.
 
 - Round win condition: at least five in a row of the same colour. ✅
 
-- Lose condition: the game ends when all cells are filled with balls and no more moves are possible.
+- Lose condition: the game ends when all cells are filled with balls and no more moves are possible.✅
 
 ### Resources
 

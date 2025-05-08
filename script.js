@@ -321,11 +321,8 @@ function removeLine(lineCellIDs) {
 }
 
 function updateScore() {
-  document.getElementById("champion").style.height = highScores[0].score + 50 + "px";
   document.getElementById("championScore").innerHTML = highScores[0].score;
   document.getElementById("challengerScore").innerHTML = playerScore;
-  if (playerScore < 300) document.getElementById("challenger").style.height = playerScore + 50 + "px";
-  else document.getElementById("challenger").style.height = 350 + "px";
 }
 
 function getRandomNumber(min, max) {
