@@ -1,10 +1,11 @@
 const soundOption = document.getElementById("sound");
 const helpButton = document.getElementById("help");
-const dialog = document.getElementById("helpGuide");
+const help = document.getElementById("helpGuide");
 const gameOver = document.getElementById("gameOver");
 const closeGameOver = document.getElementById("closeGameOver");
 const gameTable = document.getElementById("gameBoard");
 const closeHelp = document.getElementById("closeHelp");
+const closeWinner = document.getElementById("closeWinner");
 const restartGame = document.getElementById("restart");
 
 const checkGridDirections = [-1, 1, -9, 9, -8, 8, -10, 10];
@@ -12,30 +13,17 @@ const moveDirections = [-1, 1, -9, 9];
 
 let currentBallState = "";
 let currentCellState = "";
+let newChampion = false;
 
 let allowSound = true;
-let bounceSound = new Audio("/sounds/bounce-ball.mp3");
+let bounceSound = new Audio("/sounds/bounce-ball.wav");
+let endGameSound = new Audio("/sounds/end-game.ogg");
+let winnerSound = new Audio("/sounds/winner.ogg");
 let playerScore = 0;
 let highScores = [
   {
     name: "John",
     score: 170,
-  },
-  {
-    name: "Jenny",
-    score: 130,
-  },
-  {
-    name: "Bob",
-    score: 120,
-  },
-  {
-    name: "Angela",
-    score: 116,
-  },
-  {
-    name: "Jim",
-    score: 102,
   },
 ];
 
@@ -56,14 +44,14 @@ soundOption.addEventListener("click", () =>
 help.addEventListener("click", () =>
   //open help
   {
-    dialog.showModal();
+    help.showModal();
   }
 );
 
 closeHelp.addEventListener("click", () =>
   //close help
   {
-    dialog.close();
+    help.close();
   }
 );
 
@@ -159,6 +147,7 @@ function generateBall() {
 function endGame() {
   console.log("game over");
   gameOver.showModal();
+  endGameSound.play();
   closeGameOver.addEventListener("click", () =>
     //close end game screen
     {
@@ -323,6 +312,17 @@ function removeLine(lineCellIDs) {
 function updateScore() {
   document.getElementById("championScore").innerHTML = highScores[0].score;
   document.getElementById("challengerScore").innerHTML = playerScore;
+  if (!newChampion && playerScore > highScores[0].score) {
+    highScores[0].score = playerScore;
+    winner.showModal();
+    winnerSound.play();
+    closeWinner.addEventListener("click", () => winner.close());
+    newChampion = true;
+  }
+  if (newChampion) {
+    document.getElementById("championScore").innerHTML = playerScore;
+    document.getElementById("challengerScore").innerHTML = playerScore;
+  }
 }
 
 function getRandomNumber(min, max) {
