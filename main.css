@@ -71,6 +71,18 @@ h1 {
   text-align: center;
 }
 
+.gameContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game {
+  width: 414px;
+  transform-origin: center center;
+}
+
 #gameBoard {
   width: 414px;
   background-color: #8a8681ce;
@@ -162,6 +174,14 @@ h1 {
 
 @media only screen and (max-width: 650px) {
   .menu {
+    display: flex;
     flex-direction: column;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gameContainer {
+    transform: scale(70%);
   }
 }
