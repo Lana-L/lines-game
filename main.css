@@ -7,10 +7,11 @@
 }
 
 body {
-  font-family: "Rye", cursive;
+  font-family: "Farro", sans-serif;
+  font-weight: 500;
+  font-style: normal;
   color: #f1f1f1;
   background-color: #c0c0c0;
-  height: 1vmin;
 }
 
 .progress,
@@ -23,7 +24,7 @@ body {
 .buttonSet {
   display: inline-block;
   text-align: center;
-  margin-bottom: 6%;
+  margin-bottom: 3%;
 }
 
 .menu button {
@@ -40,6 +41,7 @@ body {
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
   font-family: monospace;
   font-weight: bold;
+  color: black;
   padding: 5px 5px;
   width: 60px;
   height: 60px;
@@ -173,7 +175,9 @@ h1 {
 }
 
 @media only screen and (max-width: 650px) {
-  .menu {
+  .menu,
+  .progress,
+  .gameContainer {
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -182,6 +186,12 @@ h1 {
   }
 
   .gameContainer {
-    transform: scale(70%);
+    transform: scale(53%);
+  }
+
+  h1,
+  .cylinderSet,
+  .buttonSet {
+    transform: scale(87%);
   }
 }
