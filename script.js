@@ -16,9 +16,9 @@ let currentCellState = "";
 let newChampion = false;
 
 let allowSound = true;
-let bounceSound = new Audio("/sounds/bounce-ball.wav");
-let endGameSound = new Audio("/sounds/end-game.ogg");
-let winnerSound = new Audio("/sounds/winner.ogg");
+let bounceSound = new Audio("./sounds/bounce-ball.wav");
+let endGameSound = new Audio("./sounds/end-game.ogg");
+let winnerSound = new Audio("./sounds/winner.ogg");
 let playerScore = 0;
 let highScores = [
   {
