@@ -20,12 +20,7 @@ let bounceSound = new Audio("/lines-game/sounds/bounce-ball.wav");
 let endGameSound = new Audio("/lines-game/sounds/end-game.ogg");
 let winnerSound = new Audio("/lines-game/sounds/winner.ogg");
 let playerScore = 0;
-let highScores = [
-  {
-    name: "John",
-    score: 170,
-  },
-];
+let highScore = 170;
 
 startGame();
 
@@ -145,13 +140,16 @@ function generateBall() {
 }
 
 function endGame() {
-  console.log("game over");
+  if (newChampion) localStorage.setItem("highScore", playerScore);
+
   gameOver.showModal();
   endGameSound.play();
+
   closeGameOver.addEventListener("click", () =>
     //close end game screen
     {
       gameOver.close();
+
       startGame();
     }
   );
@@ -310,10 +308,12 @@ function removeLine(lineCellIDs) {
 }
 
 function updateScore() {
-  document.getElementById("championScore").innerHTML = highScores[0].score;
+  document.getElementById("championScore").innerHTML = highScore;
   document.getElementById("challengerScore").innerHTML = playerScore;
-  if (!newChampion && playerScore > highScores[0].score) {
-    highScores[0].score = playerScore;
+
+  if (!newChampion && playerScore > highScore) {
+    highScore = playerScore;
+    localStorage.setItem("highScore", playerScore);
     winner.showModal();
     winnerSound.play();
     closeWinner.addEventListener("click", () => winner.close());
@@ -332,8 +332,12 @@ function getRandomNumber(min, max) {
 }
 
 function startGame() {
-  generateBoard();
   playerScore = 0;
+  newChampion = false;
+  if (!localStorage.getItem("highScore")) highScore = 170;
+  else highScore = localStorage.getItem("highScore");
+
+  generateBoard();
 
   for (
     let i = 0;

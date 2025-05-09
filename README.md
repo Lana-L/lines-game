@@ -46,6 +46,11 @@ Here's a screenshot we're trying to work towards.
 - How to stop first ball from animating when a different ball is clicked? ✅ fixed with tracking ball state global variable and a bunch of if/else
 - How to click to move? ✅ - track currently selected cell, the ball, and the new selected cell, delete the ball from the old cell and add it to the new one.
 
+## Extra features following user testing
+
+- Sound does not work properly, replaced with .wav files, which also seem to be intermittent in working...
+- Added local storage functionality to save user's high score
+
 ## Credits
 
 Sound Effects by <a href="https://pixabay.com/users/lesiakower-25701529/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=151796">Lesiakower</a>
