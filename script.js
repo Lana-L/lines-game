@@ -36,7 +36,7 @@ soundOption.addEventListener("click", () =>
   }
 );
 
-help.addEventListener("click", () =>
+helpButton.addEventListener("click", () =>
   //open help
   {
     help.showModal();
@@ -50,7 +50,10 @@ closeHelp.addEventListener("click", () =>
   }
 );
 
-restartGame.onclick = startGame; //restart the game button handle
+restartGame.addEventListener("click", () => {
+  if (newChampion) localStorage.setItem("highScore", playerScore);
+  startGame();
+});
 
 function cellClicked(e) {
   // create a variable for the clicked cell
@@ -100,6 +103,8 @@ function cellClicked(e) {
 function ballSounds(ballType) {
   // repeating bouncing ball sounds
   if (allowSound === false) {
+    endGameSound.pause();
+    winnerSound.pause();
     bounceSound.pause();
     return;
   }

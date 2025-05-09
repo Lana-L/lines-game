@@ -50,6 +50,9 @@ Here's a screenshot we're trying to work towards.
 
 - Sound does not work properly, replaced with .wav files, which also seem to be intermittent in working...
 - Added local storage functionality to save user's high score
+- Sound off also turns off winner and game over sounds
+- Restarting the game before losing but after getting a high score keeps the new high score
+- Fixed help button modal
 
 ## Credits
 
