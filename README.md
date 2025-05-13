@@ -45,14 +45,18 @@ Here's a screenshot we're trying to work towards.
 - Sometimes multiple calls go into the same cell. Tried hasChildNodes, children, firstChild, innerHTML... ✅ fixed with a while loop
 - How to stop first ball from animating when a different ball is clicked? ✅ fixed with tracking ball state global variable and a bunch of if/else
 - How to click to move? ✅ - track currently selected cell, the ball, and the new selected cell, delete the ball from the old cell and add it to the new one.
+- Sound does not work properly ✅ replaced with .wav files, still does not work on iOS Safari ❌
+- Help button modal does not appear ✅ fixed by referencing the right element
+- Lines clear when wrap around (eg, three balls at the end of line seven, and two balls at start of line eight will clear out the line) ❌
+- Sometimes game does not give a game over message when there are no spaces left ❌
+- Sometimes game gives a game over message when there is one space left ❌
 
-## Extra features following user testing
+### Extra changes following user testing
 
-- Sound does not work properly, replaced with .wav files, which also seem to be intermittent in working...
-- Added local storage functionality to save user's high score
-- Sound off also turns off winner and game over sounds
-- Restarting the game before losing but after getting a high score keeps the new high score
-- Fixed help button modal
+- Added local storage functionality to save user's high score ✅
+- Sound off also turns off winner and game over sounds ✅
+- Restarting the game before losing but after getting a high score keeps the new high score ✅
+- User suggested idea: get bonus points for chaining line clear, which can be spent on teleport ball swaps ❌
 
 ## Credits
 
