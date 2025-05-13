@@ -121,6 +121,12 @@ function ballSounds(ballType) {
 }
 
 function generateBall() {
+  const hasBalls = document.querySelectorAll(".hasBall").length;
+  if (hasBalls === 81) {
+    endGame();
+    return;
+  }
+
   let placeBallTries = 0;
 
   while (placeBallTries < 81) {
@@ -140,8 +146,6 @@ function generateBall() {
     }
     placeBallTries++;
   }
-
-  if (placeBallTries > 80) endGame();
 }
 
 function endGame() {
