@@ -158,7 +158,6 @@ function endGame() {
     //close end game screen
     {
       gameOver.close();
-
       startGame();
     }
   );
@@ -320,7 +319,7 @@ function checkLineCompletion(movedBall) {
     }
   });
 
-  if (lineCompleted == false)
+  if (!lineCompleted)
     for (
       let i = 0;
       i < 3;

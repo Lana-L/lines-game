@@ -50,6 +50,7 @@ Here's a screenshot we're trying to work towards.
 - Lines clear when wrap around (eg, three balls at the end of line seven, and two balls at start of line eight will clear out the line) ✅ fixed by adding end of line boundary checking
 - Sometimes game does not give a game over message when there are no spaces left ⁉️
 - Sometimes game gives a game over message when there is one space left ⁉️
+- Freebie lines (ie, line completed by random placement of balls) are not being removed ❌
 
 ### Extra changes following user testing
 
