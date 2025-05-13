@@ -243,6 +243,9 @@ function checkLineCompletion(movedBall) {
 
   let lineCompleted = false;
 
+  const newCellRow = Math.floor(newCellID / 9);
+  const newCellColumn = newCellID % 9;
+
   checkGridDirections.forEach((direction) => {
     let ballCount = 1;
 
@@ -254,10 +257,22 @@ function checkLineCompletion(movedBall) {
 
     let lineCellIDs = [newCellID];
 
+    const directionRow = Math.floor(direction / 9 || (direction % 9 === 0 ? direction / 9 : 0));
+    const directionColumn = direction % 9 === 0 ? 0 : 1;
+
     while (true) {
       let checkCellUpID = newCellID + direction * checkStepUp;
 
-      if (checkCellUpID < 0 || checkCellUpID > 80) break;
+      const checkRow = Math.floor(checkCellUpID / 9);
+      const checkColumn = checkCellUpID % 9;
+
+      if (
+        checkCellUpID < 0 ||
+        checkCellUpID > 80 ||
+        (directionColumn !== 0 && Math.abs(checkColumn - (newCellColumn + directionColumn * checkStepUp)) >= 1) ||
+        (directionRow !== 0 && checkRow !== newCellRow + directionRow * checkStepUp)
+      )
+        break;
 
       let checkCellUp = document.getElementById("cell" + checkCellUpID);
 
@@ -271,7 +286,16 @@ function checkLineCompletion(movedBall) {
     while (true) {
       let checkCellDownID = newCellID - direction * checkStepDown;
 
-      if (checkCellDownID < 0 || checkCellDownID > 80) break;
+      const checkRow = Math.floor(checkCellDownID / 9);
+      const checkColumn = checkCellDownID % 9;
+
+      if (
+        checkCellDownID < 0 ||
+        checkCellDownID > 80 ||
+        (directionColumn !== 0 && Math.abs(checkColumn - (newCellColumn - directionColumn * checkStepDown)) >= 1) ||
+        (directionRow !== 0 && checkRow !== newCellRow - directionRow * checkStepDown)
+      )
+        break;
 
       let checkCellDown = document.getElementById("cell" + checkCellDownID);
 
